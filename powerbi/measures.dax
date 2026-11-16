@@ -1,0 +1,76 @@
+// FUTURE_DS_01 — Power BI Measures
+// Paste each measure using Modeling > New measure.
+
+// Core KPIs
+Total Sales = SUM(fact_sales[Sales])
+
+Total Profit = SUM(fact_sales[Profit])
+
+Profit Margin % = DIVIDE([Total Profit], [Total Sales])
+
+Orders = DISTINCTCOUNT(fact_sales[Order ID])
+
+Customers = DISTINCTCOUNT(fact_sales[CustomerKey])
+
+Quantity Sold = SUM(fact_sales[Quantity])
+
+// Additional KPIs
+Avg Order Value = DIVIDE([Total Sales], [Orders])
+
+Avg Discount % = AVERAGE(fact_sales[Discount])
+
+Avg Ship Days = AVERAGE(fact_sales[ShipDays])
+
+// Time Intelligence
+Sales Last Year =
+CALCULATE(
+    [Total Sales],
+    SAMEPERIODLASTYEAR(dim_date[Date])
+)
+
+Sales YoY % =
+DIVIDE(
+    [Total Sales] - [Sales Last Year],
+    [Sales Last Year]
+)
+
+Profit Last Year =
+CALCULATE(
+    [Total Profit],
+    SAMEPERIODLASTYEAR(dim_date[Date])
+)
+
+Profit YoY % =
+DIVIDE(
+    [Total Profit] - [Profit Last Year],
+    ABS([Profit Last Year])
+)
+
+// Profitability Analysis
+Loss Making Lines =
+CALCULATE(
+    COUNTROWS(fact_sales),
+    fact_sales[Profit] < 0
+)
+
+Loss Line % =
+DIVIDE(
+    [Loss Making Lines],
+    COUNTROWS(fact_sales)
+)
+
+Sales Share % =
+DIVIDE(
+    [Total Sales],
+    CALCULATE(
+        [Total Sales],
+        ALL(dim_product)
+    )
+)
+
+Profit Color =
+IF(
+    [Total Profit] < 0,
+    "#C0392B",
+    "#1F6F5C"
+)

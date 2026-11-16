@@ -1,0 +1,13 @@
+{
+  "source_file": "Sample - Superstore.csv",
+  "using_demo_data": false,
+  "raw_rows": 9994,
+  "duplicates_removed": 0,
+  "bad_dates_dropped": 0,
+  "missing_sales_or_profit_dropped": 0,
+  "bad_quantity_dropped": 0,
+  "clean_rows": 9994,
+  "customers": 793,
+  "orders": 5009,
+  "missing_region_labelled": 0
+}
